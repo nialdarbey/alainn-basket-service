@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mule-configuration xmlns="http://www.mulesoft.com/tooling/messageflow" name="alainn-basket-service">
+    <global-element name="HTTP\HTTPS" type="org.mule.tooling.ui.modules.core.global.httpsConnector" entity-id="HTTP-HTTPS#1">
+        <properties>
+            <property name="reuseAddress"/>
+            <property name="enableCookies"/>
+            <property name="serverSoTimeout" value="10000"/>
+            <property name="failOnUnresolvedHost"/>
+            <property name="socketSoLinger" value="0"/>
+            <property name="clientSoTimeout" value="10000"/>
+            <property name="socketMaxWait"/>
+            <property name="cookieSpec" value="netscape"/>
+            <property name="receiveBufferSize" value="0"/>
+            <property name="proxyHostname"/>
+            <property name="name" value="httpsConnector"/>
+            <property name="dynamicNotification"/>
+            <property name="sendBufferSize" value="0"/>
+            <property name="ENABLE_MODE_SWITCH"/>
+            <property name="auxiliary;index" value="1"/>
+            <property name="proxyPassword"/>
+            <property name="proxyUsername"/>
+            <property name="receiveBacklog" value="0"/>
+            <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/https/connector"/>
+            <property name="validateConnections" value="true"/>
+            <property name="label"/>
+            <property name="sendTcpNoDelay"/>
+            <property name="keepAlive"/>
+            <property name="proxyPort"/>
+            <property name="dispatcherPoolFactory-ref"/>
+            <property name="connectionTimeout"/>
+            <property-collection name="@http://www.mulesoft.org/schema/mule/https/tls-key-store;0">
+                <property name="path" value="keystore.jks"/>
+                <property name="storePassword" value="changeit"/>
+                <property name="keyPassword" value="changeit"/>
+                <property name="isProcessed$$$$ " value="true"/>
+                <property name="auxiliary;index" value="3"/>
+                <property name="auxiliary;wrapIn" value="3"/>
+            </property-collection>
+        </properties>
+    </global-element>
+    <global-unknown description="false" index="4" entity-id="global-unknown#1">
+        <content>&lt;mulexml:namespace-manager xmlns:mulexml=&quot;http://www.mulesoft.org/schema/mule/xml&quot; includeConfigNamespaces=&quot;true&quot;&gt;
+        &lt;mulexml:namespace prefix=&quot;mes&quot; uri=&quot;http://www.alainn.com/SOA/message/1.0&quot;/&gt;
+        &lt;mulexml:namespace prefix=&quot;mod&quot; uri=&quot;http://www.alainn.com/SOA/model/1.0&quot;/&gt;
+    &lt;/mulexml:namespace-manager&gt;</content>
+    </global-unknown>
+    <global-element name="Property Placeholder" type="http://www.springframework.org/schema/context/property-placeholder" entity-id="Property Placeholder#1">
+        <properties>
+            <property name="properties-ref"/>
+            <property name="order"/>
+            <property name="location" value="config.prod.properties"/>
+            <property name="local-override"/>
+            <property name="system-properties-mode"/>
+            <property name="file-encoding"/>
+            <property name="auxiliary;index" value="7"/>
+            <property name="ignore-unresolvable"/>
+            <property name="ignore-resource-not-found"/>
+        </properties>
+    </global-element>
+    <global-element name="MySQL Configuration" type="http://www.mulesoft.org/schema/mule/db/mysql-config" entity-id="MySQL Configuration#1">
+        <properties>
+            <property name="port" value="3306"/>
+            <property name="host" value="mule-demo-repository.cdumb7bgzajt.us-east-1.rds.amazonaws.com"/>
+            <property name="auxiliary;metauseMetaData"/>
+            <property name="driverClassName"/>
+            <property name="parameterTable"/>
+            <property name="transactionIsolation"/>
+            <property name="password" value="Mule1379"/>
+            <property name="database" value="alainn"/>
+            <property name="url"/>
+            <property name="connectionTimeout"/>
+            <property name="dataSource-ref"/>
+            <property name="name" value="MySQL_Configuration"/>
+            <property name="databaseParametersConf"/>
+            <property name="springBeanConf"/>
+            <property name="useXaTransactions"/>
+            <property name="databaseURLConf"/>
+            <property name="user" value="mule"/>
+            <property name="auxiliary;index" value="8"/>
+        </properties>
+    </global-element>
+    <global-element name="list_map__to_xml" type="http://www.mulesoft.org/schema/mule/ee/data-mapper/config" entity-id="DataMapper#1">
+        <properties>
+            <property name="name" value="list_map__to_xml"/>
+            <property name="auxiliary;index" value="9"/>
+            <property name="transformationGraphPath" value="list_map__to_xml.grf"/>
+        </properties>
+    </global-element>
+    <global-element name="string_to_xml" type="http://www.mulesoft.org/schema/mule/ee/data-mapper/config" entity-id="DataMapper#2">
+        <properties>
+            <property name="name" value="string_to_xml"/>
+            <property name="auxiliary;index" value="10"/>
+            <property name="transformationGraphPath" value="string_to_xml.grf"/>
+        </properties>
+    </global-element>
+    <global-element name="string_to_xml_1" type="http://www.mulesoft.org/schema/mule/ee/data-mapper/config" entity-id="DataMapper#3">
+        <properties>
+            <property name="name" value="string_to_xml_1"/>
+            <property name="auxiliary;index" value="11"/>
+            <property name="transformationGraphPath" value="string_to_xml_1.grf"/>
+        </properties>
+    </global-element>
+    <flow SubFlow="false" name="basketserviceFlow1" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="0d0b47bf-e18e-482a-843b-54771361e397">
+        <properties>
+            <property name="initialState"/>
+            <property name="processingStrategy2"/>
+            <property name="processingStrategy"/>
+            <property name="bussinessEventsLabel"/>
+            <property name="tracking:enable-default-events"/>
+            <property name="auxiliary;index" value="12"/>
+        </properties>
+        <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#1">
+            <graphicalData x="0" y="0" width="0" height="0"/>
+            <endpoint direction="Inbound" name=":8081/basket-service" type="http://www.mulesoft.org/schema/mule/http/endpoint" entity-id="HTTP#1">
+                <graphicalData x="0" y="0" width="0" height="0"/>
+                <properties>
+                    <property name="port" value="${https.port}"/>
+                    <property name="contentType"/>
+                    <property name="password"/>
+                    <property name="tracking:enable-default-events"/>
+                    <property name="exchange-pattern" value="request-response"/>
+                    <property name="path" value="basket-service"/>
+                    <property name="encoding"/>
+                    <property name="responseTransformer-refs"/>
+                    <property name="auxiliary;index" value="13"/>
+                    <property name="connector-ref-outbound" value="httpsConnector"/>
+                    <property name="mimeType"/>
+                    <property name="responseTimeout"/>
+                    <property name="host" value="localhost"/>
+                    <property name="businessEventsLabel"/>
+                    <property name="followRedirects"/>
+                    <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/https/endpoint"/>
+                    <property name="keepAlive"/>
+                    <property name="disableTransportTransformer"/>
+                    <property name="ref"/>
+                    <property name="httpLabel"/>
+                    <property name="transformer-refs"/>
+                    <property name="address"/>
+                    <property name="method"/>
+                    <property name="user"/>
+                    <property name="connector-ref" value="httpsConnector"/>
+                </properties>
+                <description></description>
+            </endpoint>
+            <pattern name="Proxy service" type="http://www.mulesoft.org/schema/mule/cxf/soapComponent" entity-id="CXF#1">
+                <graphicalData x="0" y="0" width="0" height="0"/>
+                <properties>
+                    <property name="port" value="BasketPort"/>
+                    <property name="wsdlLocation" value="service/BasketService.wsdl"/>
+                    <property name="serviceClass"/>
+                    <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/cxf/proxy-service"/>
+                    <property name="payload" value="body"/>
+                    <property name="configuration-ref"/>
+                    <property name="namespace" value="http://www.alainn.com/SOA/service/Basket/1.0"/>
+                    <property name="validationEnabled"/>
+                    <property name="bindingId"/>
+                    <property name="onException"/>
+                    <property name="service" value="BasketService"/>
+                    <property name="mtomEnabled"/>
+                    <property name="soapVersion"/>
+                    <property name="enableMuleSoapHeaders"/>
+                    <property name="auxiliary;index" value="14"/>
+                    <property-collection name="@http://www.mulesoft.org/schema/mule/cxf/schemaLocations;0">
+                        <property name="auxiliary;index" value="15"/>
+                        <property name="auxiliary;wrapIn" value="15"/>
+                        <property-collection name="@http://www.mulesoft.org/schema/mule/cxf/schemaLocation;1">
+                            <property name="schemaLocation" value="service/SOA-Message-1.0.xsd"/>
+                            <property name="auxiliary;index" value="16"/>
+                            <property name="auxiliary;wrapIn" value="16"/>
+                        </property-collection>
+                    </property-collection>
+                </properties>
+                <description></description>
+            </pattern>
+            <pattern name="opName" type="http://www.mulesoft.org/schema/mule/core/variable-transformer" entity-id="Variable#1">
+                <graphicalData x="0" y="0" width="0" height="0"/>
+                <properties>
+                    <property name="variableName" value="opName"/>
+                    <property name="value" value="#[xpath('fn:local-name(/*)')]"/>
+                    <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/core/set-variable"/>
+                    <property name="auxiliary;index" value="17"/>
+                </properties>
+            </pattern>
+            <splitter index="18" name="Choice" type="org.mule.tooling.ui.modules.core.pattern.cbr" entity-id="Choice#1">
+                <graphicalData x="0" y="0" width="0" height="0"/>
+                <properties>
+                    <property name=";INDEX" value="18"/>
+                    <property-collection name="f19401b2-c629-44cf-a1e6-5e0c37016716">
+                        <property name="choice.expression" value="#[opName == 'getBasket']"/>
+                        <property-collection name="choice.attributes">
+                            <property name="expression" value="#[opName == 'getBasket']"/>
+                        </property-collection>
+                    </property-collection>
+                    <property-collection name="0f3ff396-3571-4dfb-a304-1a3ec457a5e5">
+                        <property name="choice.expression" value="#[opName == 'removeFromBasket']"/>
+                        <property-collection name="choice.attributes">
+                            <property name="expression" value="#[opName == 'removeFromBasket']"/>
+                        </property-collection>
+                    </property-collection>
+                    <property-collection name="70460cb4-80db-4744-ad93-32e735ba79d2">
+                        <property name="choice.expression" value="#[opName == 'addToBasket']"/>
+                        <property-collection name="choice.attributes">
+                            <property name="expression" value="#[opName == 'addToBasket']"/>
+                        </property-collection>
+                    </property-collection>
+                    <property-collection name="6a448853-e231-4b6b-be50-bd98a3af5c46">
+                        <property name="choice.otherwise" value="true"/>
+                        <property-collection name="choice.attributes"/>
+                    </property-collection>
+                </properties>
+                <pattern name="Choice" type="org.mule.tooling.ui.modules.core.pattern.cbr" entity-id="Choice#2">
+                    <properties>
+                        <property name=";INDEX" value="18"/>
+                        <property-collection name="f19401b2-c629-44cf-a1e6-5e0c37016716">
+                            <property name="choice.expression" value="#[opName == 'getBasket']"/>
+                            <property-collection name="choice.attributes">
+<property name="expression" value="#[opName == 'getBasket']"/>
+                            </property-collection>
+                        </property-collection>
+                        <property-collection name="0f3ff396-3571-4dfb-a304-1a3ec457a5e5">
+                            <property name="choice.expression" value="#[opName == 'removeFromBasket']"/>
+                            <property-collection name="choice.attributes">
+<property name="expression" value="#[opName == 'removeFromBasket']"/>
+                            </property-collection>
+                        </property-collection>
+                        <property-collection name="70460cb4-80db-4744-ad93-32e735ba79d2">
+                            <property name="choice.expression" value="#[opName == 'addToBasket']"/>
+                            <property-collection name="choice.attributes">
+<property name="expression" value="#[opName == 'addToBasket']"/>
+                            </property-collection>
+                        </property-collection>
+                        <property-collection name="6a448853-e231-4b6b-be50-bd98a3af5c46">
+                            <property name="choice.otherwise" value="true"/>
+                            <property-collection name="choice.attributes"/>
+                        </property-collection>
+                    </properties>
+                </pattern>
+                <compartment entity-id="compartment#1">
+                    <lane hadOnlyOneElement="false" index="20" isChoiceOtherwiseLane="false" entity-id="f19401b2-c629-44cf-a1e6-5e0c37016716">
+                        <pattern name="select basket" type="http://www.mulesoft.org/schema/mule/db/database-connector" entity-id="Database#1">
+                            <graphicalData x="0" y="0" width="0" height="0"/>
+                            <properties>
+<property name="streaming" value="false"/>
+<property name="fetchSize" value=""/>
+<property name="auxiliary;erased;fetchSize" value="true"/>
+<property name="auxiliary;metatype-attribute" value="text"/>
+<property name="source" value=""/>
+<property name="updated"/>
+<property name="transactionalAction" value="JOIN_IF_POSSIBLE"/>
+<property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/db/select"/>
+<property name="target" value=""/>
+<property name="auxiliary;erased;maxRows" value="true"/>
+<property name="maxRows" value=""/>
+<property name="config-ref" value="MySQL_Configuration"/>
+<property name="auxiliary;index" value="20"/>
+<property name="auxiliary;metametadataStrategy" value="new-database-dynamic-statement-metadata-strategy"/>
+<property-collection name="@http://www.mulesoft.org/schema/mule/db/dynamic-query;0">
+    <property name="text" value="select bi.quantity, si.id, si.name, si.summary, si.price, si.stock_quantity, si.image_url from basket_item bi, sku_item si where bi.customer_id = #[xpath:/mes:getBasket/mod:CustomerId] and bi.sku_item_id = si.id limit #[xpath:/mes:getBasket/mes:PageInfo/pageIndex],#[xpath:/mes:getBasket/mes:PageInfo/pageSize]"/>
+</property-collection>
+                            </properties>
+                            <description></description>
+                        </pattern>
+                        <pattern name="List&lt;Map&gt; To XML" type="http://www.mulesoft.org/schema/mule/ee/data-mapper/data-mapper-connector" entity-id="DataMapper#4">
+                            <graphicalData x="0" y="0" width="0" height="0"/>
+                            <properties>
+<property name="returnClass"/>
+<property name="stream"/>
+<property name="input-ref"/>
+<property name="target"/>
+<property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/ee/data-mapper/transform"/>
+<property name="pipeSize"/>
+<property name="config-ref" value="list_map__to_xml"/>
+<property name="auxiliary;index" value="22"/>
+                            </properties>
+                        </pattern>
+                    </lane>
+                    <lane hadOnlyOneElement="false" index="24" isChoiceOtherwiseLane="false" entity-id="0f3ff396-3571-4dfb-a304-1a3ec457a5e5">
+                        <pattern name="delete basket_item" type="http://www.mulesoft.org/schema/mule/db/database-connector" entity-id="Database#2">
+                            <graphicalData x="0" y="0" width="0" height="0"/>
+                            <properties>
+<property name="auxiliary;metatype-attribute" value="text"/>
+<property name="source" value=""/>
+<property name="updated"/>
+<property name="transactionalAction" value="JOIN_IF_POSSIBLE"/>
+<property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/db/delete"/>
+<property name="target" value=""/>
+<property name="config-ref" value="MySQL_Configuration"/>
+<property name="auxiliary;index" value="24"/>
+<property name="auxiliary;metametadataStrategy" value="new-database-metadata-strategy"/>
+<property name="bulkMode" value="false"/>
+<property-collection name="@http://www.mulesoft.org/schema/mule/db/parameterized-query;0">
+    <property name="text" value="delete from basket_item where customer_id = #[xpath:/mes:removeFromBasket/mod:CustomerId] and sku_item_id = #[xpath:/mes:removeFromBasket/mod:Sku]"/>
+</property-collection>
+                            </properties>
+                            <description></description>
+                        </pattern>
+                        <pattern name="String To XML" type="http://www.mulesoft.org/schema/mule/ee/data-mapper/data-mapper-connector" entity-id="DataMapper#5">
+                            <graphicalData x="0" y="0" width="0" height="0"/>
+                            <properties>
+<property name="returnClass"/>
+<property name="stream"/>
+<property name="input-ref" value="#[message.inboundProperties[&quot;http.query.string&quot;]]"/>
+<property name="target"/>
+<property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/ee/data-mapper/transform"/>
+<property name="pipeSize"/>
+<property name="config-ref" value="string_to_xml"/>
+<property name="auxiliary;index" value="26"/>
+                            </properties>
+                        </pattern>
+                    </lane>
+                    <lane hadOnlyOneElement="false" index="28" isChoiceOtherwiseLane="false" entity-id="70460cb4-80db-4744-ad93-32e735ba79d2">
+                        <pattern name="insert basket_item" type="http://www.mulesoft.org/schema/mule/db/database-connector" entity-id="Database#3">
+                            <graphicalData x="0" y="0" width="0" height="0"/>
+                            <properties>
+<property name=""/>
+<property name="source"/>
+<property name="autoGeneratedKeysColumnNames"/>
+<property name="transactionalAction"/>
+<property name="target"/>
+<property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/db/insert"/>
+<property name="autoGeneratedKeysColumnIndexes"/>
+<property name="config-ref" value="MySQL_Configuration"/>
+<property name="auxiliary;index" value="28"/>
+<property name="autoGeneratedKeys"/>
+<property name="bulkMode"/>
+<property-collection name="@http://www.mulesoft.org/schema/mule/db/parameterized-query;0">
+    <property name="text" value="insert into basket_item(customer_id, sku_item_id, quantity) values (#[xpath:/mes:addToBasket/mod:CustomerId], #[xpath:/mes:addToBasket/mod:BasketItem/sku], #[xpath:/mes:addToBasket/mod:BasketItem/transactionQuantity]) "/>
+    <property name="auxiliary;index" value="29"/>
+    <property name="auxiliary;wrapIn" value="29"/>
+</property-collection>
+                            </properties>
+                        </pattern>
+                        <pattern name="String To XML" type="http://www.mulesoft.org/schema/mule/ee/data-mapper/data-mapper-connector" entity-id="DataMapper#6">
+                            <graphicalData x="0" y="0" width="0" height="0"/>
+                            <properties>
+<property name="returnClass"/>
+<property name="stream"/>
+<property name="input-ref" value="#[message.inboundProperties[&quot;http.version&quot;]]"/>
+<property name="target"/>
+<property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/ee/data-mapper/transform"/>
+<property name="pipeSize"/>
+<property name="config-ref" value="string_to_xml_1"/>
+<property name="auxiliary;index" value="30"/>
+                            </properties>
+                        </pattern>
+                    </lane>
+                    <lane hadOnlyOneElement="false" index="32" isChoiceOtherwiseLane="true" entity-id="6a448853-e231-4b6b-be50-bd98a3af5c46">
+                        <pattern name="Exception" type="http://www.mulesoft.org/schema/mule/scripting/groovyComponent" entity-id="Groovy#1">
+                            <graphicalData x="0" y="0" width="0" height="0"/>
+                            <properties>
+<property name="script-ref"/>
+<property name="auxiliary;index" value="32"/>
+<property-collection name="@http://www.mulesoft.org/schema/mule/scripting/script;0">
+    <property name="text" value="throw new RuntimeException(&quot;Unknown Operation: &quot; + flowVars.opName);"/>
+    <property name="engine" value="Groovy"/>
+    <property name="auxiliary;index" value="33"/>
+    <property name="auxiliary;wrapIn" value="33"/>
+</property-collection>
+<property-collection name="@http://www.mulesoft.org/schema/mule/scripting/script-for-properties;0">
+    <property name="text" value="throw new RuntimeException(&quot;Unknown Operation: &quot; + flowVars.opName);"/>
+    <property name="engine" value="Groovy"/>
+    <property name="auxiliary;index" value="33"/>
+    <property name="auxiliary;wrapIn" value="33"/>
+</property-collection>
+                            </properties>
+                        </pattern>
+                    </lane>
+                </compartment>
+            </splitter>
+        </lane>
+    </flow>
+</mule-configuration>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:mes="http://www.alainn.com/SOA/message/1.0" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Order" xmlns:tns="http://www.alainn.com/SOA/service/Order/1.0" targetNamespace="http://www.alainn.com/SOA/service/Order/1.0">
+	<wsdl:types>
+		<xsd:schema>
+			<xsd:import namespace="http://www.alainn.com/SOA/message/1.0" schemaLocation="SOA-Message-1.0.xsd" />
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="saveOrder">
+		<wsdl:part element="mes:saveOrder" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="saveOrderResponse">
+		<wsdl:part element="mes:saveOrderResponse" name="parameters" />
+	</wsdl:message>
+	<wsdl:portType name="Order">
+		<wsdl:operation name="saveOrder">
+			<wsdl:input message="tns:saveOrder" />
+			<wsdl:output message="tns:saveOrderResponse" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="OrderSoap" type="tns:Order">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="saveOrder">
+			<soap:operation soapAction="http://www.alainn.com/SOA/service/Order/1.0/saveOrder" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="OrderService">
+		<wsdl:port binding="tns:OrderSoap" name="OrderPort">
+			<soap:address location="http://www.alainn.com" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

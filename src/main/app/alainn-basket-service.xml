@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:ws="http://www.mulesoft.org/schema/mule/ws" xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" xmlns:https="http://www.mulesoft.org/schema/mule/https"
+	xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:cxf="http://www.mulesoft.org/schema/mule/cxf" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.5.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/xml http://www.mulesoft.org/schema/mule/xml/current/mule-xml.xsd
+http://www.mulesoft.org/schema/mule/https http://www.mulesoft.org/schema/mule/https/current/mule-https.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/cxf http://www.mulesoft.org/schema/mule/cxf/current/mule-cxf.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
+http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mule/scripting/current/mule-scripting.xsd
+http://www.mulesoft.org/schema/mule/ws http://www.mulesoft.org/schema/mule/ws/current/mule-ws.xsd
+http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-current.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+    
+    <https:connector name="httpsConnector" cookieSpec="netscape" validateConnections="true" sendBufferSize="0" receiveBufferSize="0" receiveBacklog="0" clientSoTimeout="10000" serverSoTimeout="10000" socketSoLinger="0" doc:name="HTTP\HTTPS">
+        <service-overrides messageFactory="org.mule.transport.http.HttpMultipartMuleMessageFactory" />
+        <https:tls-key-store path="keystore.jks" keyPassword="changeit" storePassword="changeit" />
+    </https:connector>
+    <mulexml:namespace-manager includeConfigNamespaces="true">
+        <mulexml:namespace prefix="mes" uri="http://www.alainn.com/SOA/message/1.0" />
+        <mulexml:namespace prefix="mod" uri="http://www.alainn.com/SOA/model/1.0" />
+    </mulexml:namespace-manager>
+    <context:property-placeholder location="config.prod.properties" />
+    
+    <db:mysql-config name="MySQL_Configuration" host="mule-demo-repository.cdumb7bgzajt.us-east-1.rds.amazonaws.com" port="3306" user="mule" password="Mule1379" database="alainn" doc:name="MySQL Configuration"/>
+    <data-mapper:config name="list_map__to_xml" transformationGraphPath="list_map__to_xml.grf" doc:name="list_map__to_xml"/>
+    <data-mapper:config name="string_to_xml" transformationGraphPath="string_to_xml.grf" doc:name="string_to_xml"/>
+    <data-mapper:config name="string_to_xml_1" transformationGraphPath="string_to_xml_1.grf" doc:name="string_to_xml_1"/>
+    
+    <flow name="basketserviceFlow1" doc:name="basketserviceFlow1">
+        <https:inbound-endpoint exchange-pattern="request-response" host="localhost" port="${https.port}" path="basket-service" doc:name=":8081/basket-service" connector-ref="httpsConnector"/>
+        <cxf:proxy-service doc:name="Proxy service" namespace="http://www.alainn.com/SOA/service/Basket/1.0" port="BasketPort" service="BasketService" wsdlLocation="service/BasketService.wsdl" payload="body" >
+            <cxf:schemaLocations>
+                <cxf:schemaLocation>service/SOA-Message-1.0.xsd</cxf:schemaLocation>
+            </cxf:schemaLocations>
+        </cxf:proxy-service>
+        <set-variable variableName="opName" value="#[xpath('fn:local-name(/*)')]" doc:name="opName"/>
+        <choice doc:name="Choice">
+            <when expression="#[opName == 'getBasket']">
+                <db:select config-ref="MySQL_Configuration" doc:name="select basket">
+                    <db:dynamic-query><![CDATA[select bi.quantity, si.id, si.name, si.summary, si.price, si.stock_quantity, si.image_url from basket_item bi, sku_item si where bi.customer_id = #[xpath:/mes:getBasket/mod:CustomerId] and bi.sku_item_id = si.id limit #[xpath:/mes:getBasket/mes:PageInfo/pageIndex],#[xpath:/mes:getBasket/mes:PageInfo/pageSize]]]></db:dynamic-query>
+                </db:select>
+                <data-mapper:transform config-ref="list_map__to_xml" doc:name="List&lt;Map&gt; To XML"/>
+                
+            </when>
+            <when expression="#[opName == 'removeFromBasket']">
+                <db:delete config-ref="MySQL_Configuration" doc:name="delete basket_item">
+                    <db:parameterized-query><![CDATA[delete from basket_item where customer_id = #[xpath:/mes:removeFromBasket/mod:CustomerId] and sku_item_id = #[xpath:/mes:removeFromBasket/mod:Sku]]]></db:parameterized-query>
+                </db:delete>
+                <data-mapper:transform config-ref="string_to_xml" input-ref="#[message.inboundProperties[&quot;http.query.string&quot;]]" doc:name="String To XML"/>
+                
+            </when>
+            <when expression="#[opName == 'addToBasket']">
+                <db:insert config-ref="MySQL_Configuration" doc:name="insert basket_item">
+                    <db:parameterized-query><![CDATA[insert into basket_item(customer_id, sku_item_id, quantity) values (#[xpath:/mes:addToBasket/mod:CustomerId], #[xpath:/mes:addToBasket/mod:BasketItem/sku], #[xpath:/mes:addToBasket/mod:BasketItem/transactionQuantity]) ]]></db:parameterized-query>
+                </db:insert>
+                <data-mapper:transform config-ref="string_to_xml_1" input-ref="#[message.inboundProperties[&quot;http.version&quot;]]" doc:name="String To XML"/>
+                
+            </when>
+            <otherwise>
+                <scripting:component doc:name="Exception">
+                    <scripting:script engine="Groovy"><![CDATA[throw new RuntimeException("Unknown Operation: " + flowVars.opName);]]></scripting:script>
+                </scripting:component>
+            </otherwise>
+        </choice>
+
+    </flow>
+   
+
+</mule>

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.alainn.com/SOA/model/1.0"
+	xmlns:tns="http://www.alainn.com/SOA/model/1.0" elementFormDefault="unqualified">
+
+	<element name="Customer" type="tns:customerType" />
+	<element name="Item" type="tns:itemType" />
+	<element name="ItemSku" type="tns:skuType" />
+	<element name="TransactedSku" type="tns:transactedSkuType" />
+	<element name="ItemId" type="long" />
+	<element name="Order" type="tns:orderType" />
+	<element name="OrderId" type="long" />
+	<element name="Sale" type="tns:saleType" />
+	<element name="SaleId" type="long" />
+	<element name="BasketItem" type="tns:transactedSkuType" />
+	<element name="Sku" type="string" />
+	<element name="Email" type="string" />
+	<element name="CustomerId" type="string" />
+	<element name="CustomerRegistrationStatus" type="tns:customerRegistrationStatusType" />
+	<element name="EmailAvailability" type="tns:emailAvailabilityType" />
+	<element name="CustomerLoyaltyPoints" type="integer" />
+	<element name="MobileToken" type="string" />
+	<element name="Discount" type="float" />
+
+	<complexType name="customerType">
+		<sequence>
+			<element name="id" type="string" />
+			<element name="firstName" type="string" />
+			<element name="lastName" type="string" />
+			<element name="email" type="string" />
+			<element name="mobilePhoneNumber" type="string" />
+			<element name="loyaltyPoints" type="integer" />
+			<element name="mobileTokens" type="tns:mobileTokensType" />
+			<element name="notificationPreferences">
+				<complexType>
+					<sequence>
+						<element name="preference" maxOccurs="unbounded">
+							<simpleType>
+								<restriction base="string">
+									<enumeration value="Email" />
+									<enumeration value="Sms" />
+									<enumeration value="Web" />
+									<enumeration value="Mobile Push" />
+								</restriction>
+							</simpleType>
+						</element>
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+	</complexType>
+
+
+	<group name="basicItemInformation">
+		<sequence>
+			<element name="id" type="string" />
+			<element name="type" type="string" />
+			<element name="name" type="string" />
+			<element name="summary" type="string" />
+			<element name="imageUrl" type="string" />
+		</sequence>
+	</group>
+
+
+	<complexType name="itemType">
+		<sequence>
+			<group ref="tns:basicItemInformation" />
+			<element name="description" type="string" />
+		</sequence>
+	</complexType>
+
+	<complexType name="skuType">
+		<sequence>
+			<group ref="tns:basicItemInformation" />
+			<element name="sku" type="string" />
+			<element name="price" type="float" />
+			<element name="quantityInStock" type="integer" />
+			<element name="characteristics">
+				<complexType>
+					<sequence>
+						<element name="characteristic" maxOccurs="unbounded">
+							<complexType>
+								<simpleContent>
+									<extension base="string">
+										<attribute name="name" type="string" />
+									</extension>
+								</simpleContent>
+							</complexType>
+						</element>
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+	</complexType>
+
+	<complexType name="transactedSkuType">
+		<complexContent>
+			<extension base="tns:skuType">
+				<sequence>
+					<element name="transactionQuantity" type="integer" />
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="orderSkuType">
+		<complexContent>
+			<extension base="tns:transactedSkuType">
+				<sequence>
+					<element name="status" minOccurs="0">
+						<simpleType>
+							<restriction base="string">
+								<enumeration value="Pending" />
+								<enumeration value="Ready for Distribution" />
+							</restriction>
+						</simpleType>
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="orderType">
+		<sequence>
+			<element name="id" type="long" minOccurs="0" />
+			<element name="total" type="float" />
+			<element name="discount" type="float" minOccurs="0" />
+			<element name="pickupLocation" type="string" />
+			<element name="pickupDate" type="date" minOccurs="0" />
+			<element name="items">
+				<complexType>
+					<sequence>
+						<element name="item" type="tns:orderSkuType" maxOccurs="unbounded" />
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+	</complexType>
+
+	<complexType name="saleType">
+		<sequence>
+			<element name="id" type="long" minOccurs="0" />
+			<element name="total" type="float" />
+			<element name="discount" type="float" minOccurs="0" />
+			<element name="date" type="date" minOccurs="0" />
+			<element name="items">
+				<complexType>
+					<sequence>
+						<element name="item" type="tns:transactedSkuType"
+							maxOccurs="unbounded" />
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+	</complexType>
+
+	<simpleType name="customerRegistrationStatusType">
+		<restriction base="string">
+			<enumeration value="Pending" />
+			<enumeration value="Confirmed" />
+		</restriction>
+	</simpleType>
+
+	<simpleType name="emailAvailabilityType">
+		<restriction base="string">
+			<enumeration value="Available" />
+			<enumeration value="Taken" />
+		</restriction>
+	</simpleType>
+
+	<complexType name="mobileTokensType">
+		<sequence>
+			<element name="token" type="string" maxOccurs="unbounded" />
+		</sequence>
+	</complexType>
+
+
+
+</schema>

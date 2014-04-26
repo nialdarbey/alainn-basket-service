@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:mes="http://www.alainn.com/SOA/message/1.0" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Distribution" xmlns:tns="http://www.alainn.com/SOA/service/Distribution/1.0" targetNamespace="http://www.alainn.com/SOA/service/Distribution/1.0">
+	<wsdl:types>
+		<xsd:schema>
+			<xsd:import namespace="http://www.alainn.com/SOA/message/1.0" schemaLocation="SOA-Message-1.0.xsd" />
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="distributeOrder">
+		<wsdl:part element="mes:distributeOrder" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="distributeOrderResponse">
+		<wsdl:part element="mes:distributeOrderResponse" name="parameters" />
+	</wsdl:message>
+	<wsdl:portType name="Distribution">
+		<wsdl:operation name="distributeOrder">
+			<wsdl:input message="tns:distributeOrder" />
+			<wsdl:output message="tns:distributeOrderResponse" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="DistributionSoap" type="tns:Distribution">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="distributeOrder">
+			<soap:operation soapAction="http://www.alainn.com/SOA/service/Distribution/1.0/distributeOrder" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="DistributionService">
+		<wsdl:port binding="tns:DistributionSoap" name="DistributionPort">
+			<soap:address location="http://www.alainn.com" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><Graph author="nialdarbey" created="Thu Apr 17 12:06:36 ART 2014" description="String To XML" guiVersion="3.4.3.P" id="1397783415408" licenseCode="Unlicensed" licenseType="Unknown" modified="Thu Apr 17 12:06:36 ART 2014" modifiedBy="nialdarbey" name="String_To_XML" revision="1.0" showComponentDetails="false">
+<Global>
+<Metadata __index="0" __referenceCounter="1" __schemaType="{http://www.w3.org/2001/XMLSchema}anyType" __sourcePath="{http://www.alainn.com/SOA/message/1.0=ns0}/ns0:addToBasketResponse" _dataStructure="OBJECT" _id="__id" _type="Output" id="cad7fc69-aa20-4966-b232-1736d407d31b">
+<Record fieldDelimiter="," name="addToBasketResponse" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="0" __schemaType="{http://www.w3.org/2001/XMLSchema}anyType" __sourcePath="{http://www.alainn.com/SOA/message/1.0=ns0}/ns0:addToBasketResponse/@text()" containerType="SINGLE" label="text()" name="text" type="string"/>
+</Record>
+</Metadata>
+<Metadata __index="0" __referenceCounter="1" __sourcePath="{}/object" _dataStructure="OBJECT" _id="__id" _type="Input" id="7c281c00-d9e4-403b-b8fe-edb8c4de818e">
+<Record fieldDelimiter="," name="String" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="0" __sourcePath="{}/object/text()" containerType="SINGLE" label="text()" name="text" type="string"/>
+</Record>
+</Metadata>
+<Dictionary>
+<Entry id="DictionaryEntry0" input="true" name="inputPayload" output="false" type="object"/>
+<Entry id="DictionaryEntry1" input="false" name="outputPayload" output="true" type="object"/>
+</Dictionary>
+</Global>
+<Phase number="0">
+<Node enabled="enabled" fileURL="dict:inputPayload" guiName="Pojo READER" guiX="20" guiY="20" id="BEAN_READER0" type="BEAN_READER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Context outPort="0" sequenceField="__id" xpath=".">
+  <Mapping cloverField="text" trim="true" xpath="."/>
+</Context>
+]]></attr>
+<attr name="_data_format"><![CDATA[JAVA]]></attr>
+<attr name="schema"><![CDATA[<?xml version="1.0" encoding="UTF-8"?><schema-object>
+  <typed-object-ref type-ref="java.lang.String"/>
+  <typed-object type="java.lang.String"/>
+</schema-object>
+]]></attr>
+<attr name="__metadata"><![CDATA[true]]></attr>
+</Node>
+<Node cacheInMemory="true" charset="UTF-8" enabled="enabled" fileURL="dict:outputPayload" guiName="XML WRITER" guiX="900" guiY="20" id="EXT_XML_WRITER0" type="EXT_XML_WRITER" xmlSchemaURL="./src/main/resources/service/SOA-Message-1.0.xsd">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<clover:element clover:name="ns0:addToBasketResponse" xmlns:clover="http://www.cloveretl.com/ns/xmlmapping" xmlns:ns0="http://www.alainn.com/SOA/message/1.0" clover:inPort="0">$0.text</clover:element>]]></attr>
+<attr name="_data_format"><![CDATA[XML]]></attr>
+<attr name="__rootGlobalElementName"><![CDATA[{http://www.alainn.com/SOA/message/1.0}addToBasketResponse]]></attr>
+</Node>
+<Node enabled="enabled" guiName="Foreach 'object' -&gt; 'ns0:addToBasketResponse'" guiX="460" guiY="20" id="FOREACH_OBJECT_NS0_ADD_TO_BASKET_RESPONSE" transformClass="com.mulesoft.datamapper.transform.MelRecordTransform" type="REFORMAT">
+<attr name="melScript"><![CDATA[//MEL
+//START -> DO NOT REMOVE
+output.__id = input.__id;
+//END -> DO NOT REMOVE
+]]></attr>
+</Node>
+<Edge debugMode="true" fromNode="BEAN_READER0:0" guiBendpoints="" id="Edge0" inPort="Port 0 (in)" metadata="7c281c00-d9e4-403b-b8fe-edb8c4de818e" outPort="Port 0 (out)" toNode="FOREACH_OBJECT_NS0_ADD_TO_BASKET_RESPONSE:0"/>
+<Edge debugMode="true" fromNode="FOREACH_OBJECT_NS0_ADD_TO_BASKET_RESPONSE:0" guiBendpoints="" id="Edge1" inPort="Port 0 (in)" metadata="cad7fc69-aa20-4966-b232-1736d407d31b" outPort="Port 0 (out)" toNode="EXT_XML_WRITER0:0"/>
+</Phase>
+</Graph>
