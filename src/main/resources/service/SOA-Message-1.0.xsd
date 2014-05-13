@@ -8,6 +8,7 @@
 	<element name="notifySKUItemMovement">
 		<complexType>
 			<sequence>
+				<element ref="mod:CustomerId" />
 				<element ref="mod:TransactedSku" maxOccurs="unbounded" />
 			</sequence>
 		</complexType>
@@ -58,7 +59,7 @@
 	<element name="processOrder">
 		<complexType>
 			<sequence>
-				<element ref="mod:Customer" />
+				<element ref="mod:CustomerId" />
 				<element ref="mod:Order" />
 			</sequence>
 		</complexType>
@@ -150,6 +151,18 @@
 
 
 	<element name="addToBasketResponse" />
+
+	<element name="emptyBasket">
+		<complexType>
+			<sequence>
+				<element ref="mod:CustomerId" />
+			</sequence>
+		</complexType>
+	</element>
+
+
+
+	<element name="emptyBasketResponse" />
 
 	<element name="removeFromBasket">
 		<complexType>
@@ -300,6 +313,21 @@
 			</sequence>
 		</complexType>
 	</element>
+		<element name="getBrands">
+		<complexType>
+			<sequence>
+				<element ref="tns:PageInfo" />
+			</sequence>
+		</complexType>
+	</element>
+	<element name="getBrandsResponse">
+		<complexType>
+			<sequence>
+				<element ref="tns:PageInfo" />
+				<element ref="mod:Brand" maxOccurs="unbounded" />
+			</sequence>
+		</complexType>
+	</element>
 	<element name="getItem">
 		<complexType>
 			<sequence>
@@ -372,6 +400,8 @@
 		<complexType>
 			<sequence>
 				<element ref="mod:Discount" />
+				<element ref="mod:TotalCost" />
+				<element ref="mod:LoyaltyPoints" />
 			</sequence>
 		</complexType>
 	</element>

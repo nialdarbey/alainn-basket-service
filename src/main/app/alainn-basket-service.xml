@@ -86,10 +86,19 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
             </when>
             <when expression="#[opName == 'addToBasket']">
                 <db:insert config-ref="MySQL_Configuration" doc:name="insert basket_item">
-                    <db:parameterized-query><![CDATA[insert into basket_item(customer_id, sku_item_id, quantity) values (#[xpath:/mes:addToBasket/mod:CustomerId], #[xpath:/mes:addToBasket/mod:Sku], #[xpath:/mes:addToBasket/mod:SkuQuantity]) ]]></db:parameterized-query>
+                    <db:parameterized-query><![CDATA[
+                    	insert into basket_item(customer_id, sku_item_id, quantity) 
+                    	values (#[xpath:/mes:addToBasket/mod:CustomerId], #[xpath:/mes:addToBasket/mod:Sku], #[xpath:/mes:addToBasket/mod:SkuQuantity])
+                    	on duplicate key update quantity = quantity + #[xpath:/mes:addToBasket/mod:SkuQuantity] ]]></db:parameterized-query>
                 </db:insert>
                 <parse-template location="addToBasketResponse.xml" doc:name="addToBasketResponse.xml"/>
                 
+            </when>
+            <when expression="#[opName == 'emptyBasket']">
+                <db:delete config-ref="MySQL_Configuration" doc:name="Database">
+                    <db:parameterized-query><![CDATA[delete from basket_item where customer_id = #[Integer.valueOf(xpath('/mes:emptyBasket/mod:CustomerId/text()').text)]]]></db:parameterized-query>
+                </db:delete>
+                <parse-template location="removeFromBasketResponse.xml" doc:name="removeFromBasketResponse.xml"/>
             </when>
             <otherwise>
                 <scripting:component doc:name="Exception">

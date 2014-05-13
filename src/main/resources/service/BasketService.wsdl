@@ -23,7 +23,17 @@
 	<wsdl:message name="getBasketResponse">
 		<wsdl:part element="mes:getBasketResponse" name="parameters" />
 	</wsdl:message>
+	<wsdl:message name="emptyBasket">
+		<wsdl:part element="mes:emptyBasket" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="emptyBasketResponse">
+		<wsdl:part element="mes:emptyBasketResponse" name="parameters" />
+	</wsdl:message>
 	<wsdl:portType name="Basket">
+		<wsdl:operation name="emptyBasket">
+			<wsdl:input message="tns:emptyBasket" />
+			<wsdl:output message="tns:emptyBasket" />
+		</wsdl:operation>
 		<wsdl:operation name="addToBasket">
 			<wsdl:input message="tns:addToBasket" />
 			<wsdl:output message="tns:addToBasketResponse" />
@@ -39,6 +49,15 @@
 	</wsdl:portType>
 	<wsdl:binding name="BasketSoap" type="tns:Basket">
 		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="emptyBasket">
+			<soap:operation soapAction="http://www.alainn.com/SOA/service/Basket/1.0/emptyBasket" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
 		<wsdl:operation name="addToBasket">
 			<soap:operation soapAction="http://www.alainn.com/SOA/service/Basket/1.0/addToBasket" />
 			<wsdl:input>

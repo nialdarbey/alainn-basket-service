@@ -5,8 +5,11 @@
 	<element name="Customer" type="tns:customerType" />
 	<element name="Item" type="tns:itemType" />
 	<element name="Type" type="string" />
+	<element name="Brand" type="string" />
 	<element name="ItemSku" type="tns:skuType" />
 	<element name="TransactedSku" type="tns:transactedSkuType" />
+	<element name="TotalCost" type="float" />
+	<element name="LoyaltyPoints" type="integer" />
 	<element name="SkuQuantity" type="integer" />
 	<element name="ItemId" type="string" />
 	<element name="Order" type="tns:orderType" />
@@ -23,6 +26,30 @@
 	<element name="NotificationPreferences" type="tns:notificationPreferencesType" />
 	<element name="MobileToken" type="string" />
 	<element name="Discount" type="float" />
+
+	<complexType name="typesType">
+		<sequence>
+			<element name="type" maxOccurs="unbounded">
+				<complexType>
+					<sequence>
+						<element name="name" type="string" />
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+	</complexType>
+
+	<complexType name="brandsType">
+		<sequence>
+			<element name="brand" maxOccurs="unbounded">
+				<complexType>
+					<sequence>
+						<element name="name" type="string" />
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+	</complexType>
 
 	<complexType name="customerType">
 		<sequence>
@@ -103,8 +130,8 @@
 		<sequence>
 			<group ref="tns:basicItemInformation" />
 			<element name="sku" type="string" />
-			<element name="price" type="float" minOccurs="0"/>
-			<element name="quantityInStock" type="integer" minOccurs="0"/>
+			<element name="price" type="float" minOccurs="0" />
+			<element name="quantityInStock" type="integer" minOccurs="0" />
 			<element name="characteristics" minOccurs="0">
 				<complexType>
 					<sequence>
@@ -142,6 +169,8 @@
 							<restriction base="string">
 								<enumeration value="Pending" />
 								<enumeration value="Ready for Distribution" />
+								<enumeration value="Ready for Pickup" />
+								<enumeration value="Closed" />
 							</restriction>
 						</simpleType>
 					</element>
@@ -153,14 +182,25 @@
 	<complexType name="orderType">
 		<sequence>
 			<element name="id" type="long" minOccurs="0" />
-			<element name="total" type="float" />
+			<element name="total" type="float" minOccurs="0" />
 			<element name="discount" type="float" minOccurs="0" />
 			<element name="pickupLocation" type="string" />
 			<element name="pickupDate" type="date" minOccurs="0" />
+			<element name="status" minOccurs="0">
+				<simpleType>
+					<restriction base="string">
+						<enumeration value="Pending" />
+						<enumeration value="Ready for Distribution" />
+						<enumeration value="Ready for Pickup" />
+						<enumeration value="Closed" />
+					</restriction>
+				</simpleType>
+			</element>
 			<element name="items">
 				<complexType>
 					<sequence>
-						<element name="item" type="tns:orderSkuType" maxOccurs="unbounded" />
+						<element name="item" type="tns:transactedSkuType"
+							maxOccurs="unbounded" />
 					</sequence>
 				</complexType>
 			</element>
