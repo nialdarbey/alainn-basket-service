@@ -32,6 +32,7 @@
                 <property name="path" value="keystore.jks"/>
                 <property name="storePassword" value="changeit"/>
                 <property name="keyPassword" value="changeit"/>
+                <property name="isProcessed$$$$ " value="true"/>
                 <property name="auxiliary;index" value="3"/>
                 <property name="auxiliary;wrapIn" value="3"/>
             </property-collection>
@@ -85,7 +86,7 @@
             <property name="transformationGraphPath" value="list_map__to_xml.grf"/>
         </properties>
     </global-element>
-    <flow SubFlow="false" name="basketserviceFlow1" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="5f3cd6b6-569f-49f2-baae-13865379d3ba">
+    <flow SubFlow="false" name="basketserviceFlow1" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="1e04fd80-a1b0-4673-8c76-be6747e3b997">
         <properties>
             <property name="initialState"/>
             <property name="processingStrategy2"/>
@@ -167,57 +168,92 @@
             <splitter index="16" name="Choice" type="org.mule.tooling.ui.modules.core.pattern.cbr" entity-id="Choice#1">
                 <graphicalData x="0" y="0" width="0" height="0"/>
                 <properties>
-                    <property-collection name="eac9f4a5-325d-4676-8178-8554589d54e5">
+                    <property name=";INDEX" value="16"/>
+                    <property-collection name="5be667e3-1dc4-4386-90a4-507dee42a076">
                         <property name="choice.expression" value="#[opName == 'getBasket']"/>
                         <property-collection name="choice.attributes">
                             <property name="expression" value="#[opName == 'getBasket']"/>
                         </property-collection>
                     </property-collection>
-                    <property-collection name="f62200f2-01d9-4f9f-b365-fb8c994f62f0">
+                    <property-collection name="d107720f-4be4-4561-8b40-e45531736045">
                         <property name="choice.expression" value="#[opName == 'removeFromBasket']"/>
                         <property-collection name="choice.attributes">
                             <property name="expression" value="#[opName == 'removeFromBasket']"/>
                         </property-collection>
                     </property-collection>
-                    <property-collection name="dfaececa-7505-4f0e-845a-a8f81453b7eb">
+                    <property-collection name="e40206c5-728d-464f-b064-f6efb2c9e9cb">
                         <property name="choice.expression" value="#[opName == 'addToBasket']"/>
                         <property-collection name="choice.attributes">
                             <property name="expression" value="#[opName == 'addToBasket']"/>
                         </property-collection>
                     </property-collection>
-                    <property-collection name="e22b2a17-05d3-421b-9fbd-eb8dc137e5b5">
+                    <property-collection name="8837f891-4d15-43e0-8b68-41431d05466f">
                         <property name="choice.expression" value="#[opName == 'emptyBasket']"/>
                         <property-collection name="choice.attributes">
                             <property name="expression" value="#[opName == 'emptyBasket']"/>
                         </property-collection>
                     </property-collection>
-                    <property-collection name="08d7cbfb-3fca-4b15-90cc-aa0ff36208b6">
+                    <property-collection name="4fc0ae82-5221-40ce-987e-f1e5c0551bf8">
                         <property name="choice.otherwise" value="true"/>
                         <property-collection name="choice.attributes"/>
                     </property-collection>
                 </properties>
-                <pattern name="Choice" type="org.mule.tooling.ui.modules.core.pattern.cbr" entity-id="Choice#2"/>
+                <pattern name="Choice" type="org.mule.tooling.ui.modules.core.pattern.cbr" entity-id="Choice#2">
+                    <properties>
+                        <property name=";INDEX" value="16"/>
+                        <property-collection name="5be667e3-1dc4-4386-90a4-507dee42a076">
+                            <property name="choice.expression" value="#[opName == 'getBasket']"/>
+                            <property-collection name="choice.attributes">
+<property name="expression" value="#[opName == 'getBasket']"/>
+                            </property-collection>
+                        </property-collection>
+                        <property-collection name="d107720f-4be4-4561-8b40-e45531736045">
+                            <property name="choice.expression" value="#[opName == 'removeFromBasket']"/>
+                            <property-collection name="choice.attributes">
+<property name="expression" value="#[opName == 'removeFromBasket']"/>
+                            </property-collection>
+                        </property-collection>
+                        <property-collection name="e40206c5-728d-464f-b064-f6efb2c9e9cb">
+                            <property name="choice.expression" value="#[opName == 'addToBasket']"/>
+                            <property-collection name="choice.attributes">
+<property name="expression" value="#[opName == 'addToBasket']"/>
+                            </property-collection>
+                        </property-collection>
+                        <property-collection name="8837f891-4d15-43e0-8b68-41431d05466f">
+                            <property name="choice.expression" value="#[opName == 'emptyBasket']"/>
+                            <property-collection name="choice.attributes">
+<property name="expression" value="#[opName == 'emptyBasket']"/>
+                            </property-collection>
+                        </property-collection>
+                        <property-collection name="4fc0ae82-5221-40ce-987e-f1e5c0551bf8">
+                            <property name="choice.otherwise" value="true"/>
+                            <property-collection name="choice.attributes"/>
+                        </property-collection>
+                    </properties>
+                </pattern>
                 <compartment entity-id="compartment#1">
-                    <lane hadOnlyOneElement="false" index="18" isChoiceOtherwiseLane="false" entity-id="eac9f4a5-325d-4676-8178-8554589d54e5">
+                    <lane hadOnlyOneElement="false" index="18" isChoiceOtherwiseLane="false" entity-id="5be667e3-1dc4-4386-90a4-507dee42a076">
                         <pattern name="select basket" type="http://www.mulesoft.org/schema/mule/db/database-connector" entity-id="Database#1">
                             <graphicalData x="0" y="0" width="0" height="0"/>
                             <properties>
-<property name="streaming"/>
-<property name=""/>
-<property name="fetchSize"/>
-<property name="source"/>
-<property name="transactionalAction"/>
-<property name="target"/>
-<property name="maxRows"/>
+<property name="streaming" value="false"/>
+<property name="fetchSize" value=""/>
+<property name="auxiliary;erased;fetchSize" value="true"/>
+<property name="source" value=""/>
+<property name="updated"/>
+<property name="transactionalAction" value="JOIN_IF_POSSIBLE"/>
 <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/db/select"/>
+<property name="target" value=""/>
+<property name="auxiliary;erased;maxRows" value="true"/>
+<property name="maxRows" value=""/>
 <property name="config-ref" value="MySQL_Configuration"/>
 <property name="auxiliary;index" value="18"/>
+<property name="auxiliary;metametadataStrategy" value="new-database-dynamic-statement-metadata-strategy"/>
 <property-collection name="@http://www.mulesoft.org/schema/mule/db/dynamic-query;0">
-    <property name="text" value="&#xA;                    &#x9;select b.quantity, si.sku_id, it.item_type_name, si.sku_name, si.sku_summary, i.item_brand, si.price, si.stock_quantity, im.url, imt.image_type_name &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;from customer c, basket_item b, item i, item_type it, sku_item si, image im, image_type imt &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;where c.id = b.customer_id &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;and b.sku_item_id = si.sku_id &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;and i.item_type_id = it.id&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;and si.item_id = i.item_id&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;and si.sku_id = im.item_sku_id&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;and im.image_type_id = imt.id&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;and c.id = #[xpath:/mes:getBasket/mod:CustomerId] &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;and si.item_id = i.item_id&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;and imt.image_type_name in ('#[xpath('/mes:getBasket/mes:ImageType/text()').text.replaceAll(&quot;,&quot;, &quot;','&quot;)]')&#xA;                    "/>
-    <property name="auxiliary;index" value="19"/>
-    <property name="auxiliary;wrapIn" value="19"/>
+    <property name="text" value="select b.quantity, si.sku_id, it.item_type_name, si.sku_name, si.sku_summary, i.item_brand, si.price, si.stock_quantity, im.url, imt.image_type_name &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;from customer c, basket_item b, item i, item_type it, sku_item si, image im, image_type imt &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;where c.id = b.customer_id &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;and b.sku_item_id = si.sku_id &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;and i.item_type_id = it.id&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;and si.item_id = i.item_id&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;and si.sku_id = im.item_sku_id&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;and im.image_type_id = imt.id&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;and c.id = '#[xpath:/mes:getBasket/mod:CustomerId]' &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;and si.item_id = i.item_id&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;and imt.image_type_name in ('#[xpath('/mes:getBasket/mes:ImageType/text()').text.replaceAll(&quot;,&quot;, &quot;','&quot;)]')"/>
 </property-collection>
                             </properties>
+                            <description></description>
                         </pattern>
                         <pattern name="to []" type="http://www.mulesoft.org/schema/mule/core/expression-transformer" entity-id="Expression#1">
                             <graphicalData x="0" y="0" width="0" height="0"/>
@@ -248,7 +284,7 @@
                             </properties>
                         </pattern>
                     </lane>
-                    <lane hadOnlyOneElement="false" index="23" isChoiceOtherwiseLane="false" entity-id="f62200f2-01d9-4f9f-b365-fb8c994f62f0">
+                    <lane hadOnlyOneElement="false" index="23" isChoiceOtherwiseLane="false" entity-id="d107720f-4be4-4561-8b40-e45531736045">
                         <pattern name="delete basket_item" type="http://www.mulesoft.org/schema/mule/db/database-connector" entity-id="Database#2">
                             <graphicalData x="0" y="0" width="0" height="0"/>
                             <properties>
@@ -275,27 +311,25 @@
                             </properties>
                         </pattern>
                     </lane>
-                    <lane hadOnlyOneElement="false" index="27" isChoiceOtherwiseLane="false" entity-id="dfaececa-7505-4f0e-845a-a8f81453b7eb">
+                    <lane hadOnlyOneElement="false" index="27" isChoiceOtherwiseLane="false" entity-id="e40206c5-728d-464f-b064-f6efb2c9e9cb">
                         <pattern name="insert basket_item" type="http://www.mulesoft.org/schema/mule/db/database-connector" entity-id="Database#3">
                             <graphicalData x="0" y="0" width="0" height="0"/>
                             <properties>
-<property name=""/>
-<property name="source"/>
-<property name="autoGeneratedKeysColumnNames"/>
-<property name="transactionalAction"/>
-<property name="target"/>
+<property name="source" value=""/>
+<property name="updated"/>
+<property name="transactionalAction" value="JOIN_IF_POSSIBLE"/>
 <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/db/insert"/>
-<property name="autoGeneratedKeysColumnIndexes"/>
+<property name="target" value=""/>
 <property name="config-ref" value="MySQL_Configuration"/>
 <property name="auxiliary;index" value="27"/>
-<property name="autoGeneratedKeys"/>
-<property name="bulkMode"/>
+<property name="autoGeneratedKeys" value="false"/>
+<property name="auxiliary;metametadataStrategy" value="new-database-metadata-strategy"/>
+<property name="bulkMode" value="false"/>
 <property-collection name="@http://www.mulesoft.org/schema/mule/db/parameterized-query;0">
-    <property name="text" value="&#xA;                    &#x9;insert into basket_item(customer_id, sku_item_id, quantity) &#xA;                    &#x9;values (#[xpath:/mes:addToBasket/mod:CustomerId], #[xpath:/mes:addToBasket/mod:Sku], #[xpath:/mes:addToBasket/mod:SkuQuantity])&#xA;                    &#x9;on duplicate key update quantity = quantity + #[xpath:/mes:addToBasket/mod:SkuQuantity] "/>
-    <property name="auxiliary;index" value="28"/>
-    <property name="auxiliary;wrapIn" value="28"/>
+    <property name="text" value="insert into basket_item(customer_id, sku_item_id, quantity) &#xA;                    &#x9;values (#[xpath:/mes:addToBasket/mod:CustomerId], #[xpath:/mes:addToBasket/mod:Sku], #[xpath:/mes:addToBasket/mod:SkuQuantity])&#xA;                    &#x9;on duplicate key update quantity = quantity + #[xpath:/mes:addToBasket/mod:SkuQuantity]"/>
 </property-collection>
                             </properties>
+                            <description></description>
                         </pattern>
                         <pattern name="addToBasketResponse.xml" type="http://www.mulesoft.org/schema/mule/core/parse-template" entity-id="Parse Template#2">
                             <graphicalData x="0" y="0" width="0" height="0"/>
@@ -305,7 +339,7 @@
                             </properties>
                         </pattern>
                     </lane>
-                    <lane hadOnlyOneElement="false" index="31" isChoiceOtherwiseLane="false" entity-id="e22b2a17-05d3-421b-9fbd-eb8dc137e5b5">
+                    <lane hadOnlyOneElement="false" index="31" isChoiceOtherwiseLane="false" entity-id="8837f891-4d15-43e0-8b68-41431d05466f">
                         <pattern name="Database" type="http://www.mulesoft.org/schema/mule/db/database-connector" entity-id="Database#4">
                             <graphicalData x="0" y="0" width="0" height="0"/>
                             <properties>
@@ -332,19 +366,19 @@
                             </properties>
                         </pattern>
                     </lane>
-                    <lane hadOnlyOneElement="false" index="35" isChoiceOtherwiseLane="true" entity-id="08d7cbfb-3fca-4b15-90cc-aa0ff36208b6">
+                    <lane hadOnlyOneElement="false" index="35" isChoiceOtherwiseLane="true" entity-id="4fc0ae82-5221-40ce-987e-f1e5c0551bf8">
                         <pattern name="Exception" type="http://www.mulesoft.org/schema/mule/scripting/groovyComponent" entity-id="Groovy#1">
                             <graphicalData x="0" y="0" width="0" height="0"/>
                             <properties>
 <property name="script-ref"/>
 <property name="auxiliary;index" value="35"/>
-<property-collection name="@http://www.mulesoft.org/schema/mule/scripting/script-for-properties;0">
+<property-collection name="@http://www.mulesoft.org/schema/mule/scripting/script;0">
     <property name="text" value="throw new RuntimeException(&quot;Unknown Operation: &quot; + flowVars.opName);"/>
     <property name="engine" value="Groovy"/>
     <property name="auxiliary;index" value="36"/>
     <property name="auxiliary;wrapIn" value="36"/>
 </property-collection>
-<property-collection name="@http://www.mulesoft.org/schema/mule/scripting/script;0">
+<property-collection name="@http://www.mulesoft.org/schema/mule/scripting/script-for-properties;0">
     <property name="text" value="throw new RuntimeException(&quot;Unknown Operation: &quot; + flowVars.opName);"/>
     <property name="engine" value="Groovy"/>
     <property name="auxiliary;index" value="36"/>

@@ -42,8 +42,7 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
         <choice doc:name="Choice">
             <when expression="#[opName == 'getBasket']">
                 <db:select config-ref="MySQL_Configuration" doc:name="select basket">
-                    <db:dynamic-query><![CDATA[
-                    	select b.quantity, si.sku_id, it.item_type_name, si.sku_name, si.sku_summary, i.item_brand, si.price, si.stock_quantity, im.url, imt.image_type_name 
+                    <db:dynamic-query><![CDATA[select b.quantity, si.sku_id, it.item_type_name, si.sku_name, si.sku_summary, i.item_brand, si.price, si.stock_quantity, im.url, imt.image_type_name 
 						from customer c, basket_item b, item i, item_type it, sku_item si, image im, image_type imt 
 						where c.id = b.customer_id 
 						and b.sku_item_id = si.sku_id 
@@ -51,10 +50,9 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
 						and si.item_id = i.item_id
 						and si.sku_id = im.item_sku_id
 						and im.image_type_id = imt.id
-						and c.id = #[xpath:/mes:getBasket/mod:CustomerId] 
+						and c.id = '#[xpath:/mes:getBasket/mod:CustomerId]' 
 						and si.item_id = i.item_id
-						and imt.image_type_name in ('#[xpath('/mes:getBasket/mes:ImageType/text()').text.replaceAll(",", "','")]')
-                    ]]></db:dynamic-query>
+						and imt.image_type_name in ('#[xpath('/mes:getBasket/mes:ImageType/text()').text.replaceAll(",", "','")]')]]></db:dynamic-query>
                 </db:select>
                 <expression-transformer doc:name="to []" expression="
                 	np = [ 'BasketItem' : [] ];
@@ -86,10 +84,9 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
             </when>
             <when expression="#[opName == 'addToBasket']">
                 <db:insert config-ref="MySQL_Configuration" doc:name="insert basket_item">
-                    <db:parameterized-query><![CDATA[
-                    	insert into basket_item(customer_id, sku_item_id, quantity) 
+                    <db:parameterized-query><![CDATA[insert into basket_item(customer_id, sku_item_id, quantity) 
                     	values (#[xpath:/mes:addToBasket/mod:CustomerId], #[xpath:/mes:addToBasket/mod:Sku], #[xpath:/mes:addToBasket/mod:SkuQuantity])
-                    	on duplicate key update quantity = quantity + #[xpath:/mes:addToBasket/mod:SkuQuantity] ]]></db:parameterized-query>
+                    	on duplicate key update quantity = quantity + #[xpath:/mes:addToBasket/mod:SkuQuantity]]]></db:parameterized-query>
                 </db:insert>
                 <parse-template location="addToBasketResponse.xml" doc:name="addToBasketResponse.xml"/>
                 
