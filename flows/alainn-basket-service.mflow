@@ -43,29 +43,31 @@
         &lt;mulexml:namespace prefix=&quot;mod&quot; uri=&quot;http://www.alainn.com/SOA/model/1.0&quot;/&gt;
     &lt;/mulexml:namespace-manager&gt;</content>
     </global-unknown>
-    <global-element name="Property Placeholder" type="http://www.springframework.org/schema/context/property-placeholder" entity-id="Property Placeholder#1">
+    <global-element name="Secure Property Placeholder" type="http://www.mulesoft.org/schema/mule/secure-property-placeholder/config" entity-id="Secure Property Placeholder#1">
         <properties>
-            <property name="properties-ref"/>
+            <property name="ignoreResourceNotFound"/>
+            <property name="encryptionMode"/>
             <property name="order"/>
-            <property name="location" value="config.prod.properties"/>
-            <property name="local-override"/>
-            <property name="system-properties-mode"/>
-            <property name="file-encoding"/>
+            <property name="location" value="config.${env}.properties"/>
+            <property name="ignoreUnresolvablePlaceholders"/>
+            <property name="name" value="Secure_Property_Placeholder"/>
+            <property name="fileEncoding"/>
+            <property name="encryptionAlgorithm"/>
             <property name="auxiliary;index" value="7"/>
-            <property name="ignore-unresolvable"/>
-            <property name="ignore-resource-not-found"/>
+            <property name="systemPropertiesMode"/>
+            <property name="key" value="${props.key}"/>
         </properties>
     </global-element>
     <global-element name="MySQL Configuration" type="http://www.mulesoft.org/schema/mule/db/mysql-config" entity-id="MySQL Configuration#1">
         <properties>
             <property name="port" value="3306"/>
-            <property name="host" value="mule-demo-repository.cdumb7bgzajt.us-east-1.rds.amazonaws.com"/>
+            <property name="host" value="${db.host}"/>
             <property name="auxiliary;metauseMetaData"/>
             <property name="driverClassName"/>
             <property name="parameterTable"/>
             <property name="transactionIsolation"/>
-            <property name="password" value="Mule1379"/>
-            <property name="database" value="alainn"/>
+            <property name="password" value="${db.password}"/>
+            <property name="database" value="${db.database}"/>
             <property name="url"/>
             <property name="connectionTimeout"/>
             <property name="dataSource-ref"/>
@@ -74,7 +76,7 @@
             <property name="springBeanConf"/>
             <property name="useXaTransactions"/>
             <property name="databaseURLConf"/>
-            <property name="user" value="mule"/>
+            <property name="user" value="${db.user}"/>
             <property name="auxiliary;index" value="8"/>
         </properties>
     </global-element>
@@ -85,7 +87,7 @@
             <property name="transformationGraphPath" value="list_map__to_xml.grf"/>
         </properties>
     </global-element>
-    <flow SubFlow="false" name="basketserviceFlow1" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="8614c266-8d70-4968-b38e-b258fe468605">
+    <flow SubFlow="false" name="basketserviceFlow1" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="47b5d3de-7cd0-4a60-90ce-8fb74d84a91d">
         <properties>
             <property name="initialState"/>
             <property name="processingStrategy2"/>
@@ -167,38 +169,38 @@
             <splitter index="16" name="Choice" type="org.mule.tooling.ui.modules.core.pattern.cbr" entity-id="Choice#1">
                 <graphicalData x="0" y="0" width="0" height="0"/>
                 <properties>
-                    <property-collection name="59a8f481-5dd9-4a9f-96b4-0bf3fe272b22">
+                    <property-collection name="6f0267d3-a45c-4504-9e73-c59b687ae066">
                         <property name="choice.expression" value="#[opName == 'getBasket']"/>
                         <property-collection name="choice.attributes">
                             <property name="expression" value="#[opName == 'getBasket']"/>
                         </property-collection>
                     </property-collection>
-                    <property-collection name="59b5ed5d-7196-408c-96bd-de445b8739a3">
+                    <property-collection name="4201e1de-f7d2-47eb-b2c9-8c92de89244d">
                         <property name="choice.expression" value="#[opName == 'removeFromBasket']"/>
                         <property-collection name="choice.attributes">
                             <property name="expression" value="#[opName == 'removeFromBasket']"/>
                         </property-collection>
                     </property-collection>
-                    <property-collection name="07c5583d-ee23-4b89-819b-4b9f8fd94987">
+                    <property-collection name="16d20f21-4568-4e3a-a43f-1d7ccb4902d0">
                         <property name="choice.expression" value="#[opName == 'addToBasket']"/>
                         <property-collection name="choice.attributes">
                             <property name="expression" value="#[opName == 'addToBasket']"/>
                         </property-collection>
                     </property-collection>
-                    <property-collection name="6318943d-e239-49e5-ba48-e76392547c00">
+                    <property-collection name="f20ab937-a5bd-4ea9-bd1b-5c937dbb3808">
                         <property name="choice.expression" value="#[opName == 'emptyBasket']"/>
                         <property-collection name="choice.attributes">
                             <property name="expression" value="#[opName == 'emptyBasket']"/>
                         </property-collection>
                     </property-collection>
-                    <property-collection name="6c038348-3298-4fd2-b25f-8d49c4095068">
+                    <property-collection name="ac4b6158-ee27-4596-a1b7-a2fb9301af7a">
                         <property name="choice.otherwise" value="true"/>
                         <property-collection name="choice.attributes"/>
                     </property-collection>
                 </properties>
                 <pattern name="Choice" type="org.mule.tooling.ui.modules.core.pattern.cbr" entity-id="Choice#2"/>
                 <compartment entity-id="compartment#1">
-                    <lane hadOnlyOneElement="false" index="18" isChoiceOtherwiseLane="false" entity-id="59a8f481-5dd9-4a9f-96b4-0bf3fe272b22">
+                    <lane hadOnlyOneElement="false" index="18" isChoiceOtherwiseLane="false" entity-id="6f0267d3-a45c-4504-9e73-c59b687ae066">
                         <pattern name="select basket" type="http://www.mulesoft.org/schema/mule/db/database-connector" entity-id="Database#1">
                             <graphicalData x="0" y="0" width="0" height="0"/>
                             <properties>
@@ -248,7 +250,7 @@
                             </properties>
                         </pattern>
                     </lane>
-                    <lane hadOnlyOneElement="false" index="23" isChoiceOtherwiseLane="false" entity-id="59b5ed5d-7196-408c-96bd-de445b8739a3">
+                    <lane hadOnlyOneElement="false" index="23" isChoiceOtherwiseLane="false" entity-id="4201e1de-f7d2-47eb-b2c9-8c92de89244d">
                         <pattern name="delete basket_item" type="http://www.mulesoft.org/schema/mule/db/database-connector" entity-id="Database#2">
                             <graphicalData x="0" y="0" width="0" height="0"/>
                             <properties>
@@ -275,7 +277,7 @@
                             </properties>
                         </pattern>
                     </lane>
-                    <lane hadOnlyOneElement="false" index="27" isChoiceOtherwiseLane="false" entity-id="07c5583d-ee23-4b89-819b-4b9f8fd94987">
+                    <lane hadOnlyOneElement="false" index="27" isChoiceOtherwiseLane="false" entity-id="16d20f21-4568-4e3a-a43f-1d7ccb4902d0">
                         <pattern name="insert basket_item" type="http://www.mulesoft.org/schema/mule/db/database-connector" entity-id="Database#3">
                             <graphicalData x="0" y="0" width="0" height="0"/>
                             <properties>
@@ -305,7 +307,7 @@
                             </properties>
                         </pattern>
                     </lane>
-                    <lane hadOnlyOneElement="false" index="31" isChoiceOtherwiseLane="false" entity-id="6318943d-e239-49e5-ba48-e76392547c00">
+                    <lane hadOnlyOneElement="false" index="31" isChoiceOtherwiseLane="false" entity-id="f20ab937-a5bd-4ea9-bd1b-5c937dbb3808">
                         <pattern name="Database" type="http://www.mulesoft.org/schema/mule/db/database-connector" entity-id="Database#4">
                             <graphicalData x="0" y="0" width="0" height="0"/>
                             <properties>
@@ -332,7 +334,7 @@
                             </properties>
                         </pattern>
                     </lane>
-                    <lane hadOnlyOneElement="false" index="35" isChoiceOtherwiseLane="true" entity-id="6c038348-3298-4fd2-b25f-8d49c4095068">
+                    <lane hadOnlyOneElement="false" index="35" isChoiceOtherwiseLane="true" entity-id="ac4b6158-ee27-4596-a1b7-a2fb9301af7a">
                         <pattern name="Exception" type="http://www.mulesoft.org/schema/mule/scripting/groovyComponent" entity-id="Groovy#1">
                             <graphicalData x="0" y="0" width="0" height="0"/>
                             <properties>

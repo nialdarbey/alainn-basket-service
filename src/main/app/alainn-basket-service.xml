@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml"
+<mule xmlns:secure-property-placeholder="http://www.mulesoft.org/schema/mule/secure-property-placeholder" xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml"
 	xmlns:context="http://www.springframework.org/schema/context" xmlns:ws="http://www.mulesoft.org/schema/mule/ws" xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" xmlns:https="http://www.mulesoft.org/schema/mule/https"
 	xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:cxf="http://www.mulesoft.org/schema/mule/cxf" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.5.0"
@@ -16,7 +16,8 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
 http://www.mulesoft.org/schema/mule/ws http://www.mulesoft.org/schema/mule/ws/current/mule-ws.xsd
 http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd
 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-current.xsd
-http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/secure-property-placeholder http://www.mulesoft.org/schema/mule/secure-property-placeholder/current/mule-secure-property-placeholder.xsd">
     
     <https:connector name="httpsConnector" cookieSpec="netscape" validateConnections="true" sendBufferSize="0" receiveBufferSize="0" receiveBacklog="0" clientSoTimeout="10000" serverSoTimeout="10000" socketSoLinger="0" doc:name="HTTP\HTTPS">
         <service-overrides messageFactory="org.mule.transport.http.HttpMultipartMuleMessageFactory" />
@@ -26,9 +27,11 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
         <mulexml:namespace prefix="mes" uri="http://www.alainn.com/SOA/message/1.0" />
         <mulexml:namespace prefix="mod" uri="http://www.alainn.com/SOA/model/1.0" />
     </mulexml:namespace-manager>
-    <context:property-placeholder location="config.prod.properties" />
-    
-    <db:mysql-config name="MySQL_Configuration" host="mule-demo-repository.cdumb7bgzajt.us-east-1.rds.amazonaws.com" port="3306" user="mule" password="Mule1379" database="alainn" doc:name="MySQL Configuration"/>
+    <secure-property-placeholder:config name="Secure_Property_Placeholder" key="${props.key}" location="config.${env}.properties" doc:name="Secure Property Placeholder"/>
+	<db:mysql-config name="MySQL_Configuration"
+		host="${db.host}"
+		port="3306" user="${db.user}" password="${db.password}" database="${db.database}"
+		doc:name="MySQL Configuration" />
     <data-mapper:config name="list_map__to_xml" transformationGraphPath="list_map__to_xml.grf" doc:name="list_map__to_xml"/>
     
     <flow name="basketserviceFlow1" doc:name="basketserviceFlow1">
